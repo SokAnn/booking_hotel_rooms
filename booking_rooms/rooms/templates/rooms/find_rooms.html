@@ -1,0 +1,24 @@
+{% extends 'rooms/base.html' %}
+{% load rooms_tags %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+
+<p style="text-align: center;">Введите данные в формате 'YYYY-MM-DD'</p>
+
+<div class="container">
+<form action="{% url 'find' %}" method="post" name="find">
+    {% csrf_token %}
+
+    {{ form.as_table}}
+
+    <button type="submit">Найти доступные комнаты</button>
+</form>
+</div>
+
+{% show_rooms req %}
+<p style="text-align: center;"><a href="{% url 'add' %}" >Перейти на страницу составления брони</a></p>
+
+
+{% endblock %}
+

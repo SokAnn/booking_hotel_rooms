@@ -1,0 +1,18 @@
+{% extends 'rooms/base.html' %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+
+<p style="text-align: center;">{{ text }}</p>
+
+<div style="text-align: left;" class="container">
+<form action="" method="post" name="add">
+    {% csrf_token %}
+    <div class="form-error">{{ form.non_field_errors }}</div>
+    {{ form.as_p }}
+<!--    {{ add_form.as_p }}-->
+    <p style="text-align: center;"><button type="submit">Сохранить</button></p>
+</form>
+</div>
+
+{% endblock %}

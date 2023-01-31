@@ -1,0 +1,11 @@
+{% for order in orders %}
+ <tbody>
+ <tr>
+     <td>{{ order.id }}</td>
+     <td>{{ order.room_id }}</td>
+     <td>{{ order.start_time }}</td>
+     <td>{{ order.end_time }}</td>
+     <td><a href="{% url 'order' order.pk %}">Отменить</a></td>
+ </tr>
+ </tbody>
+{% endfor %}
