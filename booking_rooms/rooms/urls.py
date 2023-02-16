@@ -1,6 +1,6 @@
 from django.urls import path
-
-from .views import *
+from rooms.views import index, room_types, find_rooms, add_room, RegisterUser, LoginUser, logout_user, my_rooms, \
+    show_order
 
 urlpatterns = [
     path('', index, name='home'),

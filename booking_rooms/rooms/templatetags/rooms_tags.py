@@ -1,11 +1,8 @@
-from itertools import chain
-
 from django import template
+from django.contrib.auth.models import User
 from django.db.models import Q
-
-from rooms.models import *
-
 import datetime
+from rooms.models import RoomType, Order, Room
 
 register = template.Library()
 
@@ -16,7 +13,7 @@ def show_room_types(request):
         room_types = RoomType.objects.all()
     else:
         if 'daily_payment' in request:
-            temp = int(request['daily_payment'])
+            temp = float(request['daily_payment'])
             room_types = RoomType.objects.filter(daily_payment__gte=temp)
         else:
             if 'num_guests' in request:

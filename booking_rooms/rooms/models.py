@@ -1,11 +1,13 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
+from djmoney.models.fields import MoneyField
 
 
 class RoomType(models.Model):
     title = models.CharField(max_length=255, verbose_name='Тип')
-    daily_payment = models.IntegerField(verbose_name='Суточная стоимость')
+    daily_payment = MoneyField(max_digits=14, decimal_places=2, default_currency='USD',
+                               verbose_name='Суточная стоимость')
     num_guests = models.IntegerField(verbose_name='Количество гостей')
 
     def __str__(self):

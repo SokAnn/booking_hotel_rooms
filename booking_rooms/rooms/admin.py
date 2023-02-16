@@ -1,6 +1,5 @@
 from django.contrib import admin
-
-from .models import *
+from rooms.models import RoomType, Room, Order
 
 
 class RoomTypeAdmin(admin.ModelAdmin):

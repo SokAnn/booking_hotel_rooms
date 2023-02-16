@@ -1,16 +1,14 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from rooms.models import RoomType, Order
 
-from .models import *
 
-
-class TypePaymentFilterForm(forms.ModelForm):
-    class Meta:
-        model = RoomType
-        fields = ['daily_payment']
-        widgets = {
-            'daily_payment': forms.TextInput(attrs={'class': 'form-input'}),
-        }
+class TypePaymentFilterForm(forms.Form):
+    daily_payment = forms.FloatField(
+        label='Суточная стоимость',
+        required=True,
+        widget=forms.NumberInput(attrs={'id': 'daily_payment', 'step': '0.01'})
+    )
 
 
 class TypeGuestsFilterForm(forms.ModelForm):

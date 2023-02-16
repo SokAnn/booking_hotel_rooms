@@ -1,16 +1,17 @@
+import logging
 from django.contrib.auth import login, logout
 from django.contrib.auth.views import LoginView
-from django.http import HttpResponse, HttpResponseNotFound
+from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
-
-from .forms import *
+from .forms import TypePaymentFilterForm, TypeGuestsFilterForm, TypePaymentSortingForm, TypeGuestsSortingForm, \
+    FindRoomForm, AddRoomForm, RegisterUserForm, LoginUserForm
+from .models import Order
 from .utils import DataMixin, menu
 
 add_menu = [
     {'title': 'Поиск комнаты', 'url_name': 'find'},
-    # {'title': 'Забронировать номер', 'url_name': 'add'},
     {'title': 'Мои брони', 'url_name': 'my_rooms'},
 ]
 
@@ -74,16 +75,10 @@ def add_room(request):
     if request.method == 'POST':
         form = AddRoomForm(request.POST)
         if form.is_valid():
-            print(form.cleaned_data['start_time'], type(form.cleaned_data['start_time']))
-            print(form.cleaned_data['end_time'], type(form.cleaned_data['end_time']))
-            try:
-                form.save()
-                return redirect('home')
-            except:
-                form.add_error(None, 'Ошибка заполнения формы')
+            form.save()
+            return redirect('my_rooms')
 
     context_menu = new_menu(request)
-    print(req)
     context = {
         'menu': context_menu,
         'title': 'Добавление брони',
@@ -105,23 +100,25 @@ def my_rooms(request):
 
 
 def show_order(request, pk):
-    req = request.POST
-    if request.method == 'POST':
-        try:
-            record = Order.objects.get(id=pk)
-            record.delete()
-            return redirect('home')
-        except:
-            return redirect('my_rooms')
-
     context_menu = new_menu(request)
     context = {
         'menu': context_menu,
         'title': 'Редактирование брони',
         'text': 'Вы точно хотите сохранить изменения (отменить бронь)? '
-                'Если это не то, что Вы хотите, то перейдите на любую другую страницу'
+                'Если это не то, что Вы хотите, то перейдите на любую другую страницу или обновите страницу'
     }
-    return render(request, 'rooms/add_room.html', context=context)
+
+    if request.method == 'POST':
+        try:
+            record = Order.objects.get(id=pk)
+            record.delete()
+        except Order.DoesNotExist:
+            logging.exception('Exception: DoesNotExist (record with such a pk does not exist)')
+        finally:
+            return redirect('my_rooms')
+    else:
+        return render(request, 'rooms/add_room.html', context=context)
+
 
 class RegisterUser(DataMixin, CreateView):
     form_class = RegisterUserForm
