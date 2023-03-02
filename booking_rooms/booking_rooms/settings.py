@@ -38,10 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rooms.apps.RoomsConfig',
+    'api.apps.ApiConfig',
     'rest_framework',
     'corsheaders',
-    'api.apps.ApiConfig',
     'django_filters',
     'djmoney'
 ]

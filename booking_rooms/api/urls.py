@@ -1,5 +1,5 @@
 from django.urls import path, include
-from api.views import RoomTypeAPIList, RoomAPIList, OrderAPIList, OrderAPIDestroy
+from .views import RoomTypeAPIList, RoomAPIList, OrderAPIList, OrderAPIDestroy
 
 urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
